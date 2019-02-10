@@ -12,6 +12,10 @@ class IsUnique{
         System.out.println(one_way("pales","pale"));
         System.out.println(one_way("pale","bale"));
         System.out.println(one_way("pale","bake"));
+        System.out.println(string_compression("aabcccccaaa"));
+        System.out.println(string_compression("aaaaaaaaaa"));
+        System.out.println(string_compression("aa"));
+        System.out.println(string_compression("ab"));
         // System.out.println(URLify("Mr John Smith"));
         // System.out.println(URLify("    h      "));
     }
@@ -167,9 +171,43 @@ class IsUnique{
         if( str1Len == str2Len){
             return a_single_letter_change(str1,str2);
         }
-        else if( str1Len > str2Len ){
+        else if( str1Len+1 == str2Len ){
             return remove_a_letter(str1,str2);
         }
-        return remove_a_letter(str2,str1);
+        else if (str1Len == str2Len+1){
+            return remove_a_letter(str2,str1);
+        }
+        return false;
+    }
+
+
+    static String string_compression(String str)
+    {
+        if(str.length() <= 1) return str;
+
+        StringBuilder ans = new StringBuilder(); 
+
+        char prev = str.charAt(0), curr = str.charAt(1);
+
+        int counter = 1;
+
+        for(int i = 1; i < str.length(); i++)
+        {
+            prev = str.charAt(i-1);
+            curr = str.charAt(i);
+
+            if(prev==curr){
+                counter++;
+            }
+            else if(prev!=curr){
+                ans.append(prev);
+                ans.append(counter);
+                counter = 1;
+            }
+        }
+        ans.append(curr);
+        ans.append(counter);
+
+        return (ans.length() <= str.length()) ? ans.toString() : str;
     }
 }
