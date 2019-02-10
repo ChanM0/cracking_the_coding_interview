@@ -6,6 +6,9 @@ class IsUnique{
         System.out.println(Is_Unique("abcdc"));
         System.out.println(Check_Permuation("abcdc","accdb"));
         System.out.println(Check_Permuation("abcdc","dccbe"));
+        URLify("Mr John Smith             ".toCharArray(),13);
+        // System.out.println(URLify("Mr John Smith"));
+        // System.out.println(URLify("    h      "));
     }
 
     static boolean Is_Unique(String str)
@@ -46,6 +49,35 @@ class IsUnique{
 
     }
 
+    static void URLify(char[] str, int length)
+    {
+        final int SPACE = 32;
+        int spaceCount = 0, newLength = 0, i = 0;
 
+        for(i = 0; i < length; i++) {
+            if (str[i] == ' ') 
+                spaceCount++;
+        }
 
+        newLength = length + (spaceCount * 2);
+        str[newLength] = '\0';
+        for(i = length - 1; i >= 0; i--) {
+            if (str[i] == ' ') {
+                str[newLength - 1] = '0';
+                str[newLength - 2] = '2';
+                str[newLength - 3] = '%';
+                newLength -= 3;
+            }
+            else {
+                str[newLength - 1] = str[i];
+                newLength--;
+            }
+        }
+        System.out.println(str);
+    }
+
+    static void palindrome_permuation(String str)
+    {
+        
+    }
 }
