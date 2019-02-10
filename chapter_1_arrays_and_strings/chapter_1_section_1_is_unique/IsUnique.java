@@ -7,6 +7,11 @@ class IsUnique{
         System.out.println(Check_Permuation("abcdc","accdb"));
         System.out.println(Check_Permuation("abcdc","dccbe"));
         URLify("Mr John Smith             ".toCharArray(),13);
+        System.out.println(palindrome_permuation("Tact Coa"));
+        System.out.println(one_way("pale","ple"));
+        System.out.println(one_way("pales","pale"));
+        System.out.println(one_way("pale","bale"));
+        System.out.println(one_way("pale","bake"));
         // System.out.println(URLify("Mr John Smith"));
         // System.out.println(URLify("    h      "));
     }
@@ -76,8 +81,95 @@ class IsUnique{
         System.out.println(str);
     }
 
-    static void palindrome_permuation(String str)
+    static int[] getOccruanceTable(String str)
     {
-        
+        int z = Character.getNumericValue('z'), a = Character.getNumericValue('a');
+        int[] occuranceCharTable = new int[ z - a + 1];
+        int x = -1, value = 0;
+
+
+        for(char c : str.toCharArray()){
+            value = Character.getNumericValue(c);
+
+            if(a <= value && value <= z){
+                value = value - a;
+                occuranceCharTable[value]++;
+            } 
+
+        }
+
+        return occuranceCharTable;
+
+    }
+
+    static boolean palindrome_permuation(String str)
+    {
+        int[] occuranceCharTable = getOccruanceTable(str);
+       
+
+        boolean odd = false;
+
+        for(int v : occuranceCharTable){
+            if( v%2 == 1 ){
+                if(odd){
+                    return false;
+                }
+                odd = true;
+            }
+        }
+
+        return true;
+    }
+
+    static boolean a_single_letter_change(String str1,String str2)
+    {
+        boolean morethanOneLetterChange = false;
+
+        for(int i = 0; i < str1.length(); i++)
+        {
+            if( str1.charAt(i) != str2.charAt(i) ){
+                if(morethanOneLetterChange){
+                    return false;
+                }
+                morethanOneLetterChange = true;
+            }
+        }
+        return true;
+    }
+
+    static boolean remove_a_letter(String str1,String str2)
+    {
+        int[] occuranceCharTable = new int[ 128 ];
+
+        for(char c : str1.toCharArray()){
+            occuranceCharTable[c]++;
+        }
+
+        boolean morethanOneLetterChange = false; 
+        for(char c: str2.toCharArray()){
+            occuranceCharTable[c]--;
+            if(occuranceCharTable[c] == -1){
+                if(morethanOneLetterChange){
+                    return false;
+                }
+                morethanOneLetterChange = true;
+            }
+        }
+
+        return true;
+    }
+
+    static boolean one_way(String str1, String str2)
+    {
+        int str1Len = str1.length();
+        int str2Len = str2.length();
+
+        if( str1Len == str2Len){
+            return a_single_letter_change(str1,str2);
+        }
+        else if( str1Len > str2Len ){
+            return remove_a_letter(str1,str2);
+        }
+        return remove_a_letter(str2,str1);
     }
 }
